@@ -16,6 +16,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+
+    super.initState();
+
+    getData();
+
+  }
+  void getData()
+  {
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

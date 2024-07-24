@@ -13,14 +13,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-
-
   void initState() {
     bool check = FireBaseHelper.fireBaseHelper.checkUser();
     super.initState();
     Timer(const Duration(seconds: 4), () {
-
-      Get.offAllNamed(check?'home':'signIn');
+      Get.offAllNamed(check ? 'home' : 'signIn');
     });
   }
 

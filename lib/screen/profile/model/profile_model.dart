@@ -8,11 +8,11 @@ class ProfileModel {
         name: m1['name'], email: m1['email'], phone: m1['phone']);
   }
 
-
- void modelToMap(Map m1)
- {
-   m1['name'] =  name;
-   m1['email'] =  email;
-   m1['phone'] =  phone;
- }
+  Map<String, dynamic> modelToMap() {
+    return {
+      'name': name,
+      'email': email,
+      'phone': phone,
+    };
+  }
 }

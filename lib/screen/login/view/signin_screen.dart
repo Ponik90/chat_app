@@ -42,15 +42,15 @@ class _SignInScreenState extends State<SignInScreen> {
               },
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if(formKey.currentState!.validate())
                   {
-                    FireBaseHelper.fireBaseHelper
+                   await FireBaseHelper.fireBaseHelper
                         .signinAuth(txtEmail.text, txtPassword.text);
 
                     bool response = FireBaseHelper.fireBaseHelper.checkUser();
                     if (response) {
-                      Get.offAllNamed("profile");
+                      Get.offAllNamed("home");
                     }
                   }
 
@@ -62,7 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 bool response = FireBaseHelper.fireBaseHelper.checkUser();
                 FireBaseHelper.fireBaseHelper.googleSignIn();
                 if (response) {
-                  Get.offAllNamed("profile");
+                  Get.offAllNamed("home");
                 }
               },
               child: const Text("google Sign in"),
