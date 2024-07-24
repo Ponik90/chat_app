@@ -16,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Home Screen"),
         actions: [
-
           CircleAvatar(
             child: IconButton(
               onPressed: () {
@@ -25,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.person),
             ),
           ),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
         ],
       ),
       drawer: Drawer(
@@ -42,6 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed('user');
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

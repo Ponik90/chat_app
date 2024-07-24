@@ -10,8 +10,8 @@ class DbFirebaseHelPer {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String? userUid;
 
-  String getUserUid() {
-    return userUid = FireBaseHelper.fireBaseHelper.user!.uid;
+  void getUserUid() {
+    userUid = FireBaseHelper.fireBaseHelper.user!.uid;
   }
 
   Future<void> userProfile(ProfileModel m1) async {
@@ -20,7 +20,7 @@ class DbFirebaseHelPer {
 
   Future<ProfileModel> currentUser() async {
     DocumentSnapshot ds = await firestore.collection('user').doc(userUid).get();
-    Map model = ds.data() as Map;
+    Map<dynamic, dynamic> model = ds.data() as Map;
     ProfileModel data = ProfileModel.mapToModel(model);
     return data;
   }

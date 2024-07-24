@@ -21,14 +21,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-
+    controller.getUserDetail();
     getData();
   }
 
-  void getData() {
-    txtEmail.text = controller.model!.value.email!;
-    txtName.text = controller.model!.value.name!;
-    txtPhone.text = controller.model!.value.phone!;
+  Future<void> getData() async {
+    await controller.getUserDetail();
+
+    txtEmail.text = controller.model.value.email! ?? "";
+    txtName.text = controller.model.value.name! ?? "";
+    txtPhone.text = controller.model.value.phone! ?? "";
   }
 
   @override
