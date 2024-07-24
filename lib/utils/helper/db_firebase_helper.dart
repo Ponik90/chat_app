@@ -24,4 +24,14 @@ class DbFirebaseHelPer {
     ProfileModel data = ProfileModel.mapToModel(model);
     return data;
   }
+
+  Future<void> getAllUser() async {
+    QuerySnapshot qs = await firestore.collection('user').get();
+    List<QueryDocumentSnapshot> document = qs.docs;
+
+    for (var x in document) {
+      x.reference;
+      x.id;
+    }
+  }
 }

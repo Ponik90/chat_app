@@ -1,6 +1,8 @@
+import 'package:chat_app/screen/profile/controller/profile_controller.dart';
 import 'package:chat_app/screen/profile/model/profile_model.dart';
 import 'package:chat_app/utils/helper/db_firebase_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,18 +16,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController txtPhone = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  ProfileController controller = Get.put(ProfileController());
 
   @override
   void initState() {
-
     super.initState();
 
     getData();
-
   }
-  void getData()
-  {
 
+  void getData() {
+    txtEmail.text = controller.model!.value.email!;
+    txtName.text = controller.model!.value.name!;
+    txtPhone.text = controller.model!.value.phone!;
   }
 
   @override

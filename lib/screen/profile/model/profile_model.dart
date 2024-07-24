@@ -1,7 +1,7 @@
 class ProfileModel {
-  String? name, email, phone;
+  String? name, email, phone, id;
 
-  ProfileModel({this.name, this.phone, this.email});
+  ProfileModel({this.name, this.phone, this.email, this.id});
 
   factory ProfileModel.mapToModel(Map m1) {
     return ProfileModel(
