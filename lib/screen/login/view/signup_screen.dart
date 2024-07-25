@@ -17,49 +17,116 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Form(
-        key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: txtEmail,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "this is required";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: txtPassword,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "this is required";
-                }
-                return null;
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  FireBaseHelper.fireBaseHelper
-                      .signUpAuth(txtEmail.text, txtPassword.text);
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body: Padding(
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/login/signup.jpg',
+                    opacity: const AlwaysStoppedAnimation(.7),
+                  ),
+                  const SizedBox(
+                    height: 0,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 16),
+                      hintText: 'E-mail or Phone no',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                    controller: txtEmail,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "this is required";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 16),
+                      hintText: 'Password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                    controller: txtPassword,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "this is required";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff0279f5),
+                    ),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        FireBaseHelper.fireBaseHelper
+                            .signUpAuth(txtEmail.text, txtPassword.text);
 
-                  Get.offAllNamed('signIn');
-                }
-              },
-              child: const Text("Sign up"),
+                        Get.offAllNamed('signIn');
+                      }
+                      FocusManager.instance.primaryFocus!.unfocus();
+                    },
+                    child: const Text(
+                      "Sign up",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.offAllNamed('signIn');
+                    },
+                    child: RichText(
+                      text: const TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Have an Account ? ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Sign In",
+                            style: TextStyle(
+                              color: Color(0xff0279f5),
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            TextButton(
-              onPressed: () {
-                Get.offAllNamed('signIn');
-              },
-              child: const Text("Have An account"),
-            ),
-          ],
+          ),
         ),
       ),
     );

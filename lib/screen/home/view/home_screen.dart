@@ -17,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Home Screen"),
         actions: [
           CircleAvatar(
+            backgroundColor: const Color(0xff6fb2e4),
+
             child: IconButton(
               onPressed: () {
                 Get.toNamed('profile');
