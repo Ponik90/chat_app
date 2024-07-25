@@ -21,11 +21,34 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Splash screen"),
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.sizeOf(context).height,
+            width: MediaQuery.sizeOf(context).width,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0, 0),
+                end: Alignment(0, 1),
+                colors: [
+                  Color(0xff1b87d4),
+                  Color(0xff4bbd7c),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Image.asset(
+              'assets/logo/app_logo.png',
+              width: 200,
+              height: 200,
+            ),
+          ),
+        ],
       ),
     );
   }

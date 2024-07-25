@@ -28,9 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> getData() async {
     await controller.getUserDetail();
 
-    txtEmail.text = controller.model.value.email! ?? "";
-    txtName.text = controller.model.value.name! ?? "";
-    txtPhone.text = controller.model.value.phone! ?? "";
+    txtEmail.text = controller.model.value.email! ;
+    txtName.text = controller.model.value.name! ;
+    txtPhone.text = controller.model.value.phone! ;
   }
 
   @override
@@ -53,6 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               TextFormField(
                 decoration: const InputDecoration(
+                  hintText: 'name',
                   border: OutlineInputBorder(),
                 ),
                 controller: txtName,
@@ -69,6 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
+                  hintText: 'phone',
                   border: OutlineInputBorder(),
                 ),
                 controller: txtPhone,
@@ -84,6 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               TextFormField(
                 decoration: const InputDecoration(
+                  hintText: 'email',
                   border: OutlineInputBorder(),
                 ),
                 controller: txtEmail,

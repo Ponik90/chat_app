@@ -10,8 +10,8 @@ class DbFirebaseHelPer {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String? userUid;
 
-  void getUserUid() {
-    userUid = FireBaseHelper.fireBaseHelper.user!.uid;
+  String getUserUid() {
+    return userUid = FireBaseHelper.fireBaseHelper.user!.uid;
   }
 
   Future<void> userProfile(ProfileModel m1) async {
@@ -20,8 +20,9 @@ class DbFirebaseHelPer {
 
   Future<ProfileModel> currentUser() async {
     DocumentSnapshot ds = await firestore.collection('user').doc(userUid).get();
-    Map<dynamic, dynamic> model = ds.data() as Map;
-    ProfileModel data = ProfileModel.mapToModel(model);
+    Map? model = ds.data() as Map?;
+    ProfileModel data = ProfileModel.mapToModel(
+        model ?? {"name": "", "email": "", "phone": ""});
     return data;
   }
 
@@ -31,8 +32,10 @@ class DbFirebaseHelPer {
     List<QueryDocumentSnapshot> document = qs.docs;
 
     for (var x in document) {
-      ProfileModel model = x.reference as ProfileModel;
-      model.id = x.id;
+      var ket = x.id;
+      Map m1 = x.data() as Map;
+
+      ProfileModel model = ProfileModel.mapToModel(m1);
       listData!.add(model);
     }
   }
