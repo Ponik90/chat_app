@@ -1,4 +1,6 @@
+import 'package:chat_app/screen/user/controller/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -8,6 +10,14 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  UserController controller = Get.put(UserController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getAllUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,12 +25,14 @@ class _UserScreenState extends State<UserScreen> {
         title: const Text("All App User"),
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: controller.userModelList.length,
         itemBuilder: (context, index) {
-          return const ListTile(
-            title: Text("Name"),
-            leading: CircleAvatar(),
-            subtitle: Text("+91 9090909090"),
+          return ListTile(
+            title: Text("${controller.userModelList[index].name}"),
+            leading: CircleAvatar(
+              child: Text(controller.userModelList[index].name![0]),
+            ),
+            subtitle: Text("${controller.userModelList[index].phone}"),
           );
         },
       ),
