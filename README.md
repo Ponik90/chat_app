@@ -25,10 +25,11 @@ all app user.
 login,sign up ,
 google login,
 ## 📲 Screenshots
+
 <p>
-<img align="left" src="./assets/screenshots/age_calc_1.png" width="220px">
-<img align="left" src="./assets/screenshots/age_calc_2.png" width="220px">
-<img src="./assets/screenshots/age_calc_3.png" width="220px">
+<img align="left" src="" width="220px">
+<img align="left" src="" width="220px">
+<img src="" width="220px">
 </p>
 
 <br><br>
