@@ -1,16 +1,46 @@
-# chat_app
+<div align="center">
 
-A new Flutter project.
+<img src="">
+![Uploading app_logo.png…]()
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+# **Chat App**
+Chat app made with Flutter in India.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+</div>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+## 🗒 About
+
+This is a simple app made for Chat With your friends and relatives.
+
+
+## ⚙️ Features
+Main features are as follows:
+Chat with everbody,
+all app user.
+login,sign up ,
+google login,
+## 📲 Screenshots
+<p>
+<img align="left" src="./assets/screenshots/age_calc_1.png" width="220px">
+<img align="left" src="./assets/screenshots/age_calc_2.png" width="220px">
+<img src="./assets/screenshots/age_calc_3.png" width="220px">
+</p>
+
+<br><br>
+
+
+
+<div align="center">
+
+<img src="./assets/icons/logo.png" width="200px" height="200px">
+
+### Made with ❤️ in India.
+---
+### You can show some respect by starring 🌟 the repository!
+---
+</div>
