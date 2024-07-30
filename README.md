@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://github.com/Ponik90/festival/assets/156168435/df664074-b466-4905-9d34-cc5608d24aa1" height="200" widht="200">
+
 
 <img src="https://github.com/user-attachments/assets/bf280e78-a1e3-4d36-b10b-3a18c86e956c" height="200" widht="200">
 
