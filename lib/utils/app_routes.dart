@@ -1,3 +1,4 @@
+import 'package:chat_app/screen/chat/view/chat_screen.dart';
 import 'package:chat_app/screen/login/view/signin_screen.dart';
 import 'package:chat_app/screen/login/view/signup_screen.dart';
 import 'package:chat_app/screen/profile/view/profile_screen.dart';
@@ -14,4 +15,5 @@ Map<String, WidgetBuilder> screen = {
   'home': (context) => const HomeScreen(),
   'profile': (context) => const ProfileScreen(),
   'user': (context) => const UserScreen(),
+  'chat': (context) => const ChatScreen(),
 };

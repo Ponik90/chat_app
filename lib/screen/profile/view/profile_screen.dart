@@ -28,9 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> getData() async {
     await controller.getUserDetail();
 
-    txtEmail.text = controller.model.value.email! ;
-    txtName.text = controller.model.value.name! ;
-    txtPhone.text = controller.model.value.phone! ;
+    txtEmail.text = controller.model.value.email!;
+    txtName.text = controller.model.value.name!;
+    txtPhone.text = controller.model.value.phone!;
   }
 
   @override

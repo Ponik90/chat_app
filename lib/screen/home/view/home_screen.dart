@@ -18,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           CircleAvatar(
             backgroundColor: const Color(0xff6fb2e4),
-
             child: IconButton(
               onPressed: () {
                 Get.toNamed('profile');
@@ -32,18 +31,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: Drawer(
-        child: Column(
-          children: [
-            const Spacer(),
-            ListTile(
-              onTap: () {
-                FireBaseHelper.fireBaseHelper.signOut();
-                Get.offAllNamed('signIn');
-              },
-              title: const Text("Log Out"),
-              trailing: const Icon(Icons.logout_outlined),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50),
+          child: Column(
+            children: [
+              Text("${FireBaseHelper.fireBaseHelper.user!.email}"),
+              const Spacer(),
+              ListTile(
+                onTap: () {
+                  FireBaseHelper.fireBaseHelper.signOut();
+                  Get.offAllNamed('signIn');
+                },
+                title: const Text("Log Out"),
+                trailing: const Icon(Icons.logout_outlined),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

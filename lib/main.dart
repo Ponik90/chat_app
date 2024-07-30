@@ -15,7 +15,6 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: screen,
-
     ),
   );
 }

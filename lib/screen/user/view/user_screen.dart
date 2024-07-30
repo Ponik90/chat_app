@@ -28,6 +28,9 @@ class _UserScreenState extends State<UserScreen> {
         itemCount: controller.userModelList.length,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: () {
+              Get.toNamed('chat', arguments: controller.userModelList[index]);
+            },
             title: Text("${controller.userModelList[index].name}"),
             leading: CircleAvatar(
               child: Text(controller.userModelList[index].name![0]),
