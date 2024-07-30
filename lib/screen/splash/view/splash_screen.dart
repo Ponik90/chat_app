@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:chat_app/screen/user/controller/user_controller.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,8 +14,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  UserController controller = Get.put(UserController());
+
   @override
   void initState() {
+    controller.getAllUser();
     bool check = FireBaseHelper.fireBaseHelper.checkUser();
     super.initState();
     Timer(const Duration(seconds: 4), () {

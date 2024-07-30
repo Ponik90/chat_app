@@ -1,4 +1,6 @@
 import 'package:chat_app/screen/user/controller/user_controller.dart';
+import 'package:chat_app/utils/helper/db_firebase_helper.dart';
+import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,20 +26,27 @@ class _UserScreenState extends State<UserScreen> {
       appBar: AppBar(
         title: const Text("All App User"),
       ),
-      body: ListView.builder(
-        itemCount: controller.userModelList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {
-              Get.toNamed('chat', arguments: controller.userModelList[index]);
-            },
-            title: Text("${controller.userModelList[index].name}"),
-            leading: CircleAvatar(
-              child: Text(controller.userModelList[index].name![0]),
-            ),
-            subtitle: Text("${controller.userModelList[index].phone}"),
-          );
-        },
+      body: Obx(
+        () => ListView.builder(
+          itemCount: controller.userModelList.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              onTap: () async {
+                print("==========${controller.userModelList[index].id}");
+
+                await DbFirebaseHelPer.dbFirebaseHelPer.getChatDocId(
+                    FireBaseHelper.fireBaseHelper.user!.uid,
+                    controller.userModelList[index].id!);
+                Get.toNamed('chat', arguments: controller.userModelList[index]);
+              },
+              title: Text("${controller.userModelList[index].name}"),
+              leading: CircleAvatar(
+                child: Text(controller.userModelList[index].name![0]),
+              ),
+              subtitle: Text("${controller.userModelList[index].phone}"),
+            );
+          },
+        ),
       ),
     );
   }

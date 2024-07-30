@@ -1,3 +1,4 @@
+import 'package:chat_app/screen/chat/model/chat_model.dart';
 import 'package:chat_app/screen/profile/model/profile_model.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ class DbFirebaseHelPer {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String? userUid;
+  String? id;
 
   //user uid
   void getUserUid() {
@@ -33,11 +35,11 @@ class DbFirebaseHelPer {
   }
 
   // all app user
-  Future<List<ProfileModel>> getAllUser() async {
+  Future<List<ProfileModel>> getAllUser(ProfileModel p1) async {
     List<ProfileModel> listData = [];
     QuerySnapshot qs = await firestore
         .collection('user')
-        .where(FireBaseHelper.fireBaseHelper.user!.uid, isNotEqualTo: userUid)
+        .where("phone", isNotEqualTo: p1.phone)
         .get();
     List<QueryDocumentSnapshot> document = qs.docs;
 
@@ -55,34 +57,43 @@ class DbFirebaseHelPer {
   // find chat id
   Future<void> checkChatId(
       String myId, String user2id, DateTime date, String message) async {
+    if (id == null) {
+      DocumentReference dr = await firestore
+          .collection('chat')
+          .add({'Userid1': myId, 'Userid2': user2id});
+
+      id = dr.id;
+      sendMessage(id: id!, message: message, date: date);
+    } else {
+      sendMessage(id: id!, message: message, date: date);
+
+    }
+  }
+
+  Future<String?> getChatDocId(String myId, String user2id) async {
     QuerySnapshot qs = await firestore
         .collection('chat')
         .where('Userid1', isEqualTo: myId)
-        .where('userid2', isEqualTo: user2id)
+        .where('Userid2', isEqualTo: user2id)
         .get();
     List<QueryDocumentSnapshot> l1 = qs.docs;
-    if (l1.isEmpty) {
+    if (l1.isNotEmpty) {
+      id = l1[0].id;
+      return id;
+    } else {
       QuerySnapshot qs = await firestore
           .collection('chat')
           .where('Userid2', isEqualTo: myId)
-          .where('userid1', isEqualTo: user2id)
+          .where('Userid1', isEqualTo: user2id)
           .get();
       List<QueryDocumentSnapshot> l2 = qs.docs;
-      if (l2.isEmpty) {
-        //create new chat
-        DocumentReference dr = await firestore
-            .collection('chat')
-            .add({'Userid1': myId, 'Userid2': user2id});
-
-        String otherUserId = dr.id;
-        sendMessage(id: otherUserId, message: message, date: DateTime.now());
+      if (l2.isNotEmpty) {
+        id = l2[0].id;
+        return id;
       } else {
-        String id = l2[0].id;
-        sendMessage(id: id, message: message, date: DateTime.now());
+        id = null;
+        return id;
       }
-    } else {
-      String id = l1[0].id;
-      sendMessage(id: id, message: message, date: DateTime.now());
     }
   }
 
@@ -97,5 +108,34 @@ class DbFirebaseHelPer {
   }
 
   //live chat message
-  void chatMessages() {}
+  Stream<QuerySnapshot<Map<String, dynamic>>> chatMessages() {
+
+    print("=========$id");
+    return firestore.collection("chat").doc(id).collection('msg').snapshots();
+  }
 }
+/*
+*  QuerySnapshot qs = await firestore
+        .collection('chat')
+        .where('Userid1', isEqualTo: myId)
+        .where('userid2', isEqualTo: user2id)
+        .get();
+    List<QueryDocumentSnapshot> l1 = qs.docs;
+    if (l1.isEmpty) {
+      QuerySnapshot qs = await firestore
+          .collection('chat')
+          .where('Userid2', isEqualTo: myId)
+          .where('userid1', isEqualTo: user2id)
+          .get();
+      List<QueryDocumentSnapshot> l2 = qs.docs;
+      if (l2.isEmpty) {
+        //create new chat
+
+      } else {
+        id = l2[0].id;
+        sendMessage(id: id!, message: message, date: date);
+      }
+    } else {
+      id = l1[0].id;
+      sendMessage(id: id!, message: message, date: date);
+    }*/

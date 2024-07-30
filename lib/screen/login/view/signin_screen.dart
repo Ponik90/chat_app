@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import '../../../utils/helper/firebase_auth.dart';
+import '../../user/controller/user_controller.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -15,6 +17,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  UserController controller = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +84,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       backgroundColor: const Color(0xff0279f5),
                     ),
                     onPressed: () async {
+
+                      controller.getAllUser();
                       if (formKey.currentState!.validate()) {
                         await FireBaseHelper.fireBaseHelper
                             .signinAuth(txtEmail.text, txtPassword.text);
