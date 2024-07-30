@@ -1,7 +1,6 @@
 <div align="center">
 
-<img src="">
-![Uploading app_logo.png…]()
+<img src="https://github.com/user-attachments/assets/bf280e78-a1e3-4d36-b10b-3a18c86e956c">
 
 
 # **Chat App**
