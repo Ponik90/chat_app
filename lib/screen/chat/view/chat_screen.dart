@@ -2,6 +2,7 @@ import 'package:chat_app/screen/chat/controller/chat_controller.dart';
 import 'package:chat_app/screen/chat/model/chat_model.dart';
 import 'package:chat_app/screen/profile/model/profile_model.dart';
 import 'package:chat_app/utils/helper/db_firebase_helper.dart';
+import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,7 +43,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 stream: DbFirebaseHelPer.dbFirebaseHelPer.chatMessages(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return const Text("Let's Started");
+                    return const Center(
+                      child: Text("Let's Started"),
+                    );
                   } else if (snapshot.hasData) {
                     List<ChatModel> chatModelList = [];
                     QuerySnapshot? qs = snapshot.data;
@@ -57,21 +60,56 @@ class _ChatScreenState extends State<ChatScreen> {
                       chatModelList.add(model);
                     }
 
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: chatModelList.length,
-                        itemBuilder: (context, index) {
-                          return Align(
-
-                            child: Text("${chatModelList[index].message}"),
-                          );
-                        },
-                      ),
-                    );
+                    if (chatModelList.isEmpty) {
+                      return const Center(
+                        child: Text("Let's started"),
+                      );
+                    } else {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: chatModelList.length,
+                          itemBuilder: (context, index) {
+                            return Align(
+                              alignment: chatModelList[index].uid ==
+                                      FireBaseHelper.fireBaseHelper.user!.uid
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: InkWell(
+                                  onLongPress: () {
+                                    Get.defaultDialog(
+                                      title: "delete chat",
+                                      actions: [
+                                        IconButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          icon: const Icon(Icons.cancel),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            DbFirebaseHelPer.dbFirebaseHelPer
+                                                .deleteMyChat(
+                                                    chatModelList[index]
+                                                        .docId!);
+                                            Get.back();
+                                          },
+                                          icon: const Icon(Icons.delete),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  child:
+                                      Text("${chatModelList[index].message}")),
+                            );
+                          },
+                        ),
+                      );
+                    }
                   }
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
+              const Spacer(),
               Row(
                 children: [
                   Expanded(
@@ -87,8 +125,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      controller.sendMassage(
-                          model.id!, DateTime.now(), txtMessage.text);
+                      if (txtMessage.text.isEmpty) {
+                        const Text("please enter the message");
+                      } else {
+                        controller.sendMassage(
+                            model.id!, DateTime.now(), txtMessage.text);
+                        DbFirebaseHelPer.dbFirebaseHelPer.chatMessages();
+                      }
                     },
                     icon: const Icon(Icons.send),
                   ),

@@ -32,8 +32,6 @@ class _UserScreenState extends State<UserScreen> {
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () async {
-                print("==========${controller.userModelList[index].id}");
-
                 await DbFirebaseHelPer.dbFirebaseHelPer.getChatDocId(
                     FireBaseHelper.fireBaseHelper.user!.uid,
                     controller.userModelList[index].id!);

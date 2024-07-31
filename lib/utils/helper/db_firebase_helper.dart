@@ -39,7 +39,7 @@ class DbFirebaseHelPer {
     List<ProfileModel> listData = [];
     QuerySnapshot qs = await firestore
         .collection('user')
-        .where("phone", isNotEqualTo: p1.phone)
+        .where("phone", isEqualTo: p1.phone)
         .get();
     List<QueryDocumentSnapshot> document = qs.docs;
 
@@ -66,7 +66,6 @@ class DbFirebaseHelPer {
       sendMessage(id: id!, message: message, date: date);
     } else {
       sendMessage(id: id!, message: message, date: date);
-
     }
   }
 
@@ -109,33 +108,33 @@ class DbFirebaseHelPer {
 
   //live chat message
   Stream<QuerySnapshot<Map<String, dynamic>>> chatMessages() {
+    return firestore
+        .collection("chat")
+        .doc(id)
+        .collection('msg')
+        .orderBy('datetime')
+        .snapshots();
+  }
 
-    print("=========$id");
-    return firestore.collection("chat").doc(id).collection('msg').snapshots();
+  //delete my chat
+  void deleteMyChat(String uid) {
+    firestore.collection('chat').doc(id).collection('msg').doc(uid).delete();
+  }
+
+  //get all user whose with us
+  Future<void> chatWithUser() async {
+    List<ChatModel> userChat = [];
+    QuerySnapshot qs = await firestore
+        .collection('chat')
+        .where("Userid1", isEqualTo: FireBaseHelper.fireBaseHelper.user!.uid)
+        .get();
+    QuerySnapshot qs2 = await firestore
+        .collection('chat')
+        .where("Userid2", isEqualTo: FireBaseHelper.fireBaseHelper.user!.uid)
+        .get();
+
+    List<Map> m1 = qs.docs as List<Map>;
+    List<Map> m2 = qs2.docs as List<Map>;
+
   }
 }
-/*
-*  QuerySnapshot qs = await firestore
-        .collection('chat')
-        .where('Userid1', isEqualTo: myId)
-        .where('userid2', isEqualTo: user2id)
-        .get();
-    List<QueryDocumentSnapshot> l1 = qs.docs;
-    if (l1.isEmpty) {
-      QuerySnapshot qs = await firestore
-          .collection('chat')
-          .where('Userid2', isEqualTo: myId)
-          .where('userid1', isEqualTo: user2id)
-          .get();
-      List<QueryDocumentSnapshot> l2 = qs.docs;
-      if (l2.isEmpty) {
-        //create new chat
-
-      } else {
-        id = l2[0].id;
-        sendMessage(id: id!, message: message, date: date);
-      }
-    } else {
-      id = l1[0].id;
-      sendMessage(id: id!, message: message, date: date);
-    }*/
