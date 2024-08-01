@@ -110,7 +110,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
 
                     DbFirebaseHelPer.dbFirebaseHelPer.userProfile(model);
+                    Get.offAllNamed('home');
                   }
+
                 },
                 child: const Text("Submit"),
               ),

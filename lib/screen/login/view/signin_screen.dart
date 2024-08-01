@@ -81,7 +81,6 @@ class _SignInScreenState extends State<SignInScreen> {
                       backgroundColor: const Color(0xff0279f5),
                     ),
                     onPressed: () async {
-                      controller.getAllUser();
                       if (formKey.currentState!.validate()) {
                         await FireBaseHelper.fireBaseHelper
                             .signinAuth(txtEmail.text, txtPassword.text);
@@ -89,9 +88,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         bool response =
                             FireBaseHelper.fireBaseHelper.checkUser();
                         if (response) {
-                          Get.offAllNamed("home");
+                          Get.offAllNamed("profile");
                         }
                       }
+                      await controller.getAllUser();
                       FocusManager.instance.primaryFocus!.unfocus();
                     },
                     child: const Text(

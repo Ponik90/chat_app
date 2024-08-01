@@ -1,4 +1,3 @@
-import 'package:chat_app/screen/chat/model/chat_model.dart';
 import 'package:chat_app/screen/profile/model/profile_model.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -121,20 +120,8 @@ class DbFirebaseHelPer {
     firestore.collection('chat').doc(id).collection('msg').doc(uid).delete();
   }
 
-  //get all user whose with us
-  Future<void> chatWithUser() async {
-    List<ChatModel> userChat = [];
-    QuerySnapshot qs = await firestore
-        .collection('chat')
-        .where("Userid1", isEqualTo: FireBaseHelper.fireBaseHelper.user!.uid)
-        .get();
-    QuerySnapshot qs2 = await firestore
-        .collection('chat')
-        .where("Userid2", isEqualTo: FireBaseHelper.fireBaseHelper.user!.uid)
-        .get();
-
-    List<Map> m1 = qs.docs as List<Map>;
-    List<Map> m2 = qs2.docs as List<Map>;
-
+  //get all user who chat with us
+  Stream<QuerySnapshot<Map<String, dynamic>>> chatWithUser() {
+    return firestore.collection('chat').snapshots();
   }
 }
