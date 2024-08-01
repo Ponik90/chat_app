@@ -1,7 +1,7 @@
+import 'package:chat_app/screen/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../utils/helper/firebase_auth.dart';
-import '../../user/controller/user_controller.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -14,7 +14,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  UserController controller = Get.put(UserController());
+  ProfileController controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           Get.offAllNamed("profile");
                         }
                       }
-                      await controller.getAllUser();
+                      await controller.getUserDetail();
                       FocusManager.instance.primaryFocus!.unfocus();
                     },
                     child: const Text(

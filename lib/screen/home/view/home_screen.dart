@@ -1,3 +1,4 @@
+import 'package:chat_app/utils/helper/db_firebase_helper.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -51,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+
           Get.toNamed('user');
         },
         child: const Icon(Icons.add),

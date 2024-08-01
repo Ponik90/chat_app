@@ -14,6 +14,8 @@ class DbFirebaseHelPer {
   //user uid
   void getUserUid() {
     userUid = FireBaseHelper.fireBaseHelper.user!.uid;
+
+    print("======================${FireBaseHelper.fireBaseHelper.user!.uid}");
   }
 
   //user personal data
@@ -36,9 +38,10 @@ class DbFirebaseHelPer {
   // all app user
   Future<List<ProfileModel>> getAllUser(ProfileModel p1) async {
     List<ProfileModel> listData = [];
+    //
     QuerySnapshot qs = await firestore
         .collection('user')
-        .where("phone", isEqualTo: p1.phone)
+        .where("phone", isNotEqualTo: p1.phone)
         .get();
     List<QueryDocumentSnapshot> document = qs.docs;
 
