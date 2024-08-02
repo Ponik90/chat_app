@@ -1,5 +1,8 @@
+import 'package:chat_app/screen/profile/model/profile_model.dart';
+import 'package:chat_app/services/notification_service.dart';
 import 'package:chat_app/utils/helper/db_firebase_helper.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -17,6 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Home Screen"),
         actions: [
+          IconButton(
+            onPressed: () {
+              NotificationService.notificationService.simpleNotification();
+            },
+            icon: const Icon(Icons.notifications),
+          ),
           CircleAvatar(
             backgroundColor: const Color(0xff6fb2e4),
             child: IconButton(
@@ -52,10 +61,32 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
           Get.toNamed('user');
         },
         child: const Icon(Icons.add),
+      ),
+      body: StreamBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (snapshot.hasData) {
+
+
+            return ListView.builder(
+              itemCount: userList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text("${userList[index].name}"),
+                  subtitle: Text("${userList[index].phone}"),
+                );
+              },
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        stream: DbFirebaseHelPer.dbFirebaseHelPer.allConversationUser(),
       ),
     );
   }

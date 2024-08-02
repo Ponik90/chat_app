@@ -89,9 +89,10 @@ class _SignInScreenState extends State<SignInScreen> {
                             FireBaseHelper.fireBaseHelper.checkUser();
                         if (response) {
                           Get.offAllNamed("profile");
+                          await controller.getUserDetail();
                         }
                       }
-                      await controller.getUserDetail();
+
                       FocusManager.instance.primaryFocus!.unfocus();
                     },
                     child: const Text(

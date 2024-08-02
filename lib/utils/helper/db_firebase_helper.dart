@@ -15,7 +15,7 @@ class DbFirebaseHelPer {
   void getUserUid() {
     userUid = FireBaseHelper.fireBaseHelper.user!.uid;
 
-    print("======================${FireBaseHelper.fireBaseHelper.user!.uid}");
+
   }
 
   //user personal data
@@ -124,7 +124,7 @@ class DbFirebaseHelPer {
   }
 
   //get all user who chat with us
-  Stream<QuerySnapshot<Map<String, dynamic>>> chatWithUser() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> allConversationUser() {
     return firestore.collection('chat').snapshots();
   }
 }

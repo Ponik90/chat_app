@@ -17,13 +17,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-
     bool check = FireBaseHelper.fireBaseHelper.checkUser();
     super.initState();
     Timer(const Duration(seconds: 4), () {
       Get.offAllNamed(check ? 'home' : 'signIn');
     });
-    controller.getUserDetail();
+
+    if (check) {
+      controller.getUserDetail();
+    }
   }
 
   @override
