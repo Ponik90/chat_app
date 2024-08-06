@@ -1,6 +1,6 @@
 import 'package:chat_app/screen/chat/controller/chat_controller.dart';
 import 'package:chat_app/screen/chat/model/chat_model.dart';
-import 'package:chat_app/screen/profile/model/profile_model.dart';
+import 'package:chat_app/screen/user/model/user_model.dart';
 import 'package:chat_app/utils/helper/db_firebase_helper.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,7 +15,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  ProfileModel model = Get.arguments;
+  UserModel model = Get.arguments;
   ChatController controller = Get.put(ChatController());
   TextEditingController txtMessage = TextEditingController();
 
@@ -127,17 +127,29 @@ class _ChatScreenState extends State<ChatScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  IconButton(
-                    onPressed: () {
-                      if (txtMessage.text.isEmpty) {
-                        const Text("please enter the message");
-                      } else {
-                        controller.sendMassage(
-                            model.id!, DateTime.now(), txtMessage.text);
-                        DbFirebaseHelPer.dbFirebaseHelPer.chatMessages();
-                      }
-                    },
-                    icon: const Icon(Icons.send),
+                  CircleAvatar(
+                    backgroundColor: const Color(0xff458ddd),
+                    radius: 25,
+                    child: IconButton(
+                      onPressed: () {
+                        if (txtMessage.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("please enter the message"),
+                            ),
+                          );
+                        } else {
+                          controller.sendMassage(
+                              model.id!, DateTime.now(), txtMessage.text);
+                          DbFirebaseHelPer.dbFirebaseHelPer.chatMessages();
+                        }
+                      },
+                      color: Colors.white,
+                      icon: const Icon(
+                        Icons.send,
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ],
               ),

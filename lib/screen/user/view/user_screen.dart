@@ -24,7 +24,7 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All App User"),
+        title: const Text("App User"),
       ),
       body: Obx(
         () => ListView.builder(
@@ -39,6 +39,7 @@ class _UserScreenState extends State<UserScreen> {
               },
               title: Text("${controller.userModelList[index].name}"),
               leading: CircleAvatar(
+                backgroundColor: Colors.blue.shade100,
                 child: Text(controller.userModelList[index].name![0]),
               ),
               subtitle: Text("${controller.userModelList[index].phone}"),

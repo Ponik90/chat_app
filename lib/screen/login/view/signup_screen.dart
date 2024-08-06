@@ -22,22 +22,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(),
         body: Padding(
           padding:
-              const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+              const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 50),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.arrow_back),
+                    ),
+                  ),
                   Image.asset(
                     'assets/login/signup.jpg',
                     opacity: const AlwaysStoppedAnimation(.7),
                   ),
                   const SizedBox(
-                    height: 0,
+                    height: 20,
                   ),
                   TextFormField(
                     decoration: InputDecoration(

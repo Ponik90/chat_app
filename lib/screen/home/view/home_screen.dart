@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        title: const Text("Chat App"),
         actions: [
           IconButton(
             onPressed: () {
@@ -38,18 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
               NotificationService.notificationService.soundNotification();
             },
             icon: const Icon(Icons.notifications),
-          ),
-          // CircleAvatar(
-          //   backgroundColor: const Color(0xff6fb2e4),
-          //   child: IconButton(
-          //     onPressed: () {
-          //       Get.toNamed('profile');
-          //     },
-          //     icon: const Icon(Icons.person),
-          //   ),
-          // ),
-          const SizedBox(
-            width: 16,
           ),
         ],
       ),
@@ -171,37 +159,65 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: StreamBuilder(
+        stream: DbFirebaseHelPer.dbFirebaseHelPer.allConversationUser(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text("${snapshot.error}");
           } else if (snapshot.hasData) {
+            homeController.userList.clear();
+
             QuerySnapshot? qs = snapshot.data;
-            Map m1 = qs!.docs as Map;
-            if (m1['Userid1'] == FireBaseHelper.fireBaseHelper.user!.uid) {
-              List<QueryDocumentSnapshot> list = qs.docs;
-              for (var x in list) {
-                Map m1 = x.data() as Map;
-                if (m1['Userid1'] == FireBaseHelper.fireBaseHelper.user!.uid) {
-                } else if (m1['Userid2'] ==
-                    FireBaseHelper.fireBaseHelper.user!.uid) {}
+            List<QueryDocumentSnapshot> qds = qs!.docs;
+            for (var x in qds) {
+              Map m1 = x.data() as Map;
+
+              if (m1['Userid1'] == FireBaseHelper.fireBaseHelper.user!.uid) {
+                DbFirebaseHelPer.dbFirebaseHelPer
+                    .getAllChat(m1['Userid2'])
+                    .then(
+                  (value) {
+                    homeController.userList.add(value);
+                  },
+                );
+              } else if (m1['Userid2'] ==
+                  FireBaseHelper.fireBaseHelper.user!.uid) {
+                DbFirebaseHelPer.dbFirebaseHelPer
+                    .getAllChat(m1['Userid1'])
+                    .then(
+                  (value) {
+                    homeController.userList.add(value);
+                  },
+                );
               }
             }
 
-            return ListView.builder(
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return const ListTile(
-                  title: Text("name}"),
-                  subtitle: Text("phone}"),
-                );
-              },
+            return Obx(
+              () => ListView.builder(
+                itemCount: homeController.userList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () async {
+                      await DbFirebaseHelPer.dbFirebaseHelPer.getChatDocId(
+                          FireBaseHelper.fireBaseHelper.user!.uid,
+                          homeController.userList[index].id!);
+                      Get.toNamed('chat',
+                          arguments: homeController.userList[index]);
+                    },
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.blue.shade100,
+                      child: Text(homeController.userList[index].name![0]),
+                    ),
+                    title: Text("${homeController.userList[index].name}"),
+                    subtitle: Text("${homeController.userList[index].phone}"),
+                  );
+                },
+              ),
             );
           }
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
-        stream: DbFirebaseHelPer.dbFirebaseHelPer.allConversationUser(),
       ),
     );
   }

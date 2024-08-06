@@ -25,7 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
       child: Scaffold(
         body: Padding(
           padding:
-              const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+              const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 60),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -36,7 +36,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     opacity: const AlwaysStoppedAnimation(.7),
                   ),
                   const SizedBox(
-                    height: 0,
+                    height: 20,
                   ),
                   TextFormField(
                     controller: txtEmail,

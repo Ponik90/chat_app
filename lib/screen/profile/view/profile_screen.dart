@@ -45,8 +45,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
+                backgroundColor: Colors.blue.shade100,
                 radius: 50,
+
               ),
               const SizedBox(
                 height: 10,
@@ -101,6 +103,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 10,
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff458ddd),
+                ),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     ProfileModel model = ProfileModel(
@@ -112,9 +117,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     DbFirebaseHelPer.dbFirebaseHelPer.userProfile(model);
                     Get.offAllNamed('home');
                   }
-
                 },
-                child: const Text("Submit"),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

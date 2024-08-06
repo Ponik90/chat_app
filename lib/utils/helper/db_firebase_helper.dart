@@ -1,4 +1,5 @@
 import 'package:chat_app/screen/profile/model/profile_model.dart';
+import 'package:chat_app/screen/user/model/user_model.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -14,8 +15,6 @@ class DbFirebaseHelPer {
   //user uid
   void getUserUid() {
     userUid = FireBaseHelper.fireBaseHelper.user!.uid;
-
-
   }
 
   //user personal data
@@ -36,8 +35,8 @@ class DbFirebaseHelPer {
   }
 
   // all app user
-  Future<List<ProfileModel>> getAllUser(ProfileModel p1) async {
-    List<ProfileModel> listData = [];
+  Future<List<UserModel>> getAllUser(ProfileModel p1) async {
+    List<UserModel> listData = [];
     //
     QuerySnapshot qs = await firestore
         .collection('user')
@@ -49,7 +48,7 @@ class DbFirebaseHelPer {
       var ket = x.id;
       Map m1 = x.data() as Map;
 
-      ProfileModel model = ProfileModel.mapToModel(m1);
+      UserModel model = UserModel.mapToModel(m1);
       model.id = ket;
       listData.add(model);
     }
@@ -126,5 +125,16 @@ class DbFirebaseHelPer {
   //get all user who chat with us
   Stream<QuerySnapshot<Map<String, dynamic>>> allConversationUser() {
     return firestore.collection('chat').snapshots();
+  }
+
+  Future<UserModel> getAllChat(userid) async {
+    DocumentSnapshot ds = await firestore.collection('user').doc(userid).get();
+
+    Map m1 = ds.data() as Map;
+
+    UserModel model = UserModel.mapToModel(m1);
+    model.id = ds.id;
+
+    return model;
   }
 }
