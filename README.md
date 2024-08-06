@@ -32,6 +32,7 @@ google login,
 <p>
 
 <img align="left" src="https://github.com/user-attachments/assets/47b39e99-7ef5-4795-8c57-c0953d54683f" width="220px">
+<img align="left" src="https://github.com/user-attachments/assets/997b332d-5681-468c-a391-ff045874abcc" width="220px">
 
 
 </p>
