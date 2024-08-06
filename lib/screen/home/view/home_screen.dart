@@ -1,6 +1,8 @@
+import 'package:chat_app/screen/home/controller/home_controller.dart';
 import 'package:chat_app/services/notification_service.dart';
 import 'package:chat_app/utils/helper/db_firebase_helper.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../profile/controller/profile_controller.dart';
@@ -14,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ProfileController profileController = Get.put(ProfileController());
+  HomeController homeController = Get.put(HomeController());
 
   @override
   void initState() {
@@ -51,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: Drawer(
-        width: MediaQuery.sizeOf(context).width * 0.8,
         child: Column(
           children: [
             Container(
@@ -173,21 +175,17 @@ class _HomeScreenState extends State<HomeScreen> {
           if (snapshot.hasError) {
             return Text("${snapshot.error}");
           } else if (snapshot.hasData) {
-            // List<ProfileModel> userList = [];
-            // QuerySnapshot? qs = snapshot.data;
-            // Map m1 = qs!.docs as Map;
-            // if (m1['Userid1'] == FireBaseHelper.fireBaseHelper.user!.uid) {
-            //   List<QueryDocumentSnapshot> list = qs.docs;
-            //   for (var x in list) {
-            //     Map m1 = x.data() as Map;
-            //     var id = x.id;
-            //
-            //     ProfileModel model = ProfileModel.mapToModel(m1);
-            //     model.id = id;
-            //
-            //     userList.add(model);
-            //   }
-            // }
+            QuerySnapshot? qs = snapshot.data;
+            Map m1 = qs!.docs as Map;
+            if (m1['Userid1'] == FireBaseHelper.fireBaseHelper.user!.uid) {
+              List<QueryDocumentSnapshot> list = qs.docs;
+              for (var x in list) {
+                Map m1 = x.data() as Map;
+                if (m1['Userid1'] == FireBaseHelper.fireBaseHelper.user!.uid) {
+                } else if (m1['Userid2'] ==
+                    FireBaseHelper.fireBaseHelper.user!.uid) {}
+              }
+            }
 
             return ListView.builder(
               itemCount: 20,

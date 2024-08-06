@@ -76,27 +76,31 @@ class _ChatScreenState extends State<ChatScreen> {
                                   : Alignment.centerLeft,
                               child: InkWell(
                                   onLongPress: () {
-                                    Get.defaultDialog(
-                                      title: "delete chat",
-                                      actions: [
-                                        IconButton(
-                                          onPressed: () {
-                                            Get.back();
-                                          },
-                                          icon: const Icon(Icons.cancel),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            DbFirebaseHelPer.dbFirebaseHelPer
-                                                .deleteMyChat(
-                                                    chatModelList[index]
-                                                        .docId!);
-                                            Get.back();
-                                          },
-                                          icon: const Icon(Icons.delete),
-                                        ),
-                                      ],
-                                    );
+                                    if (chatModelList[index].uid ==
+                                        FireBaseHelper
+                                            .fireBaseHelper.user!.uid) {
+                                      Get.defaultDialog(
+                                        title: "delete chat",
+                                        actions: [
+                                          IconButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            icon: const Icon(Icons.cancel),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              DbFirebaseHelPer.dbFirebaseHelPer
+                                                  .deleteMyChat(
+                                                      chatModelList[index]
+                                                          .docId!);
+                                              Get.back();
+                                            },
+                                            icon: const Icon(Icons.delete),
+                                          ),
+                                        ],
+                                      );
+                                    }
                                   },
                                   child:
                                       Text("${chatModelList[index].message}")),
