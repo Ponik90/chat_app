@@ -30,14 +30,10 @@ google login,
 ## 📲 Screenshots
 
 <p>
+![signin]()
 
 <img align="left" src="https://github.com/user-attachments/assets/47b39e99-7ef5-4795-8c57-c0953d54683f" width="220px">
-<img align="left" src="https://github.com/user-attachments/assets/997b332d-5681-468c-a391-ff045874abcc" width="220px">
-<img align="left" src="https://github.com/user-attachments/assets/77fd864e-c70e-4db9-84c4-86752e25c0b4" width="220px">
-<img src="https://github.com/user-attachments/assets/f0f8b831-8e39-4a82-bcdb-c5bb0c926e2e" width="220px">
-<img align="left" src="https://github.com/user-attachments/assets/3f403a8b-0714-4495-a82e-8613df16f383" width="220px">
-<img src="https://github.com/user-attachments/assets/c8cbd66b-3185-45d1-803d-ca799d672fed" width="220px">
-<img align="left" src="https://github.com/user-attachments/assets/d09d989a-1d5d-4ca4-8259-2d305a42ee4e" width="220px">
+<img align="left" src="https://github.com/user-attachments/assets/48ac559f-559a-49d8-aeac-9fbb20175084" width="220px">
 </p>
 
 <br><br>
