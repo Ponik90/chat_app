@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_app/screen/chat/controller/chat_controller.dart';
 import 'package:chat_app/screen/chat/model/chat_model.dart';
 import 'package:chat_app/screen/user/model/user_model.dart';
@@ -5,6 +7,7 @@ import 'package:chat_app/utils/helper/db_firebase_helper.dart';
 import 'package:chat_app/utils/helper/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:get/get.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -18,11 +21,25 @@ class _ChatScreenState extends State<ChatScreen> {
   UserModel model = Get.arguments;
   ChatController controller = Get.put(ChatController());
   TextEditingController txtMessage = TextEditingController();
+  FocusNode node = FocusNode();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     controller.chatMessages();
+    node.addListener(
+      () {
+        if (node.hasFocus) {
+          Future.delayed(
+              const Duration(milliseconds: 300),
+              scrollController.animateTo(
+                  scrollController.position.maxScrollExtent,
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.fastOutSlowIn) as FutureOr Function()?);
+        }
+      },
+    );
   }
 
   @override
@@ -69,42 +86,133 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: ListView.builder(
                           itemCount: chatModelList.length,
                           itemBuilder: (context, index) {
-                            return Align(
-                              alignment: chatModelList[index].uid ==
-                                      FireBaseHelper.fireBaseHelper.user!.uid
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: InkWell(
-                                  onLongPress: () {
-                                    if (chatModelList[index].uid ==
-                                        FireBaseHelper
-                                            .fireBaseHelper.user!.uid) {
-                                      Get.defaultDialog(
-                                        title: "delete chat",
-                                        actions: [
-                                          IconButton(
-                                            onPressed: () {
-                                              Get.back();
-                                            },
-                                            icon: const Icon(Icons.cancel),
+                            return chatModelList[index].uid ==
+                                    FireBaseHelper.fireBaseHelper.user!.uid
+                                ? ChatBubble(
+                                    clipper: ChatBubbleClipper6(
+                                      type: BubbleType.sendBubble,
+                                    ),
+                                    alignment: Alignment.centerRight,
+                                    elevation: 2,
+                                    child: InkWell(
+                                      onLongPress: () {
+                                        if (chatModelList[index].uid ==
+                                            FireBaseHelper
+                                                .fireBaseHelper.user!.uid) {
+                                          Get.defaultDialog(
+                                            title: "delete chat",
+                                            actions: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xffdd4545),
+                                                ),
+                                                child: const Text(
+                                                  "Cansel",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  DbFirebaseHelPer
+                                                      .dbFirebaseHelPer
+                                                      .deleteMyChat(
+                                                          chatModelList[index]
+                                                              .docId!);
+                                                  Get.back();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xff458ddd),
+                                                ),
+                                                child: const Text(
+                                                  "Delete",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Text(
+                                          "${chatModelList[index].message}",
+                                          style: const TextStyle(
+                                            color: Colors.white,
                                           ),
-                                          IconButton(
-                                            onPressed: () {
-                                              DbFirebaseHelPer.dbFirebaseHelPer
-                                                  .deleteMyChat(
-                                                      chatModelList[index]
-                                                          .docId!);
-                                              Get.back();
-                                            },
-                                            icon: const Icon(Icons.delete),
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                  },
-                                  child:
-                                      Text("${chatModelList[index].message}")),
-                            );
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : ChatBubble(
+                                    clipper: ChatBubbleClipper6(
+                                      type: BubbleType.receiverBubble,
+                                    ),
+                                    elevation: 2,
+                                    backGroundColor: Colors.grey.shade300,
+                                    alignment: Alignment.centerLeft,
+                                    child: InkWell(
+                                      onLongPress: () {
+                                        if (chatModelList[index].uid ==
+                                            FireBaseHelper
+                                                .fireBaseHelper.user!.uid) {
+                                          Get.defaultDialog(
+                                            title: "delete chat",
+                                            actions: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xffdd4545),
+                                                ),
+                                                child: const Text(
+                                                  "Cansel",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  DbFirebaseHelPer
+                                                      .dbFirebaseHelPer
+                                                      .deleteMyChat(
+                                                          chatModelList[index]
+                                                              .docId!);
+                                                  Get.back();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xff458ddd),
+                                                ),
+                                                child: const Text(
+                                                  "Delete",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Text(
+                                            "${chatModelList[index].message}"),
+                                      ),
+                                    ),
+                                  );
                           },
                         ),
                       );
@@ -113,14 +221,28 @@ class _ChatScreenState extends State<ChatScreen> {
                   return const Center(child: CircularProgressIndicator());
                 },
               ),
-              const Spacer(),
               Row(
                 children: [
                   Expanded(
                     child: TextField(
+                      focusNode: node,
                       controller: txtMessage,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: Color(0xff084759),
+                          ),
+                        ),
+                        hintText: "type message",
+                        hintStyle: TextStyle(color: Colors.blue.shade300),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xff084759),
+                          ),
+                        ),
                       ),
                     ),
                   ),
