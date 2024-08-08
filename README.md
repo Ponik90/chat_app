@@ -39,6 +39,9 @@ google login,
 <img align="left" src="https://github.com/user-attachments/assets/48135bee-bbe0-46b2-9fee-fe42fcf2a529" width="220px">
 <img align="left" src="https://github.com/user-attachments/assets/924b0242-d589-4405-ada2-d389b9991ad3" width="220px">
 <img align="left" src="https://github.com/user-attachments/assets/28d6f153-196f-4d41-af3a-096794cc8a26" width="220px">
+<img align="left" src="https://github.com/user-attachments/assets/f7e726e5-e5b9-4c8f-be43-acf93e04a6c8" width="220px">
+
+
 </p>
 
 <br><br>
@@ -47,7 +50,11 @@ google login,
 
 <div align="center">
 
-<img src="./assets/icons/logo.png" width="200px" height="200px">
+
+https://github.com/user-attachments/assets/c172e8bc-5aff-4c7e-ab0a-83755d5f9c69
+
+
+
 
 ### Made with ❤️ in India.
 ---
