@@ -56,170 +56,185 @@ class _ChatScreenState extends State<ChatScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              StreamBuilder(
-                stream: DbFirebaseHelPer.dbFirebaseHelPer.chatMessages(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Center(
-                      child: Text("Let's Started"),
-                    );
-                  } else if (snapshot.hasData) {
-                    List<ChatModel> chatModelList = [];
-                    QuerySnapshot? qs = snapshot.data;
-                    List<QueryDocumentSnapshot> l1 = qs!.docs;
-                    for (var x in l1) {
-                      var id = x.id;
-                      Map m1 = x.data() as Map;
+              Expanded(
+                child: Obx(
+                  () => StreamBuilder(
+                    stream: controller.chat.value,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Let's Started"),
+                        );
+                      } else if (snapshot.hasData) {
+                        List<ChatModel> chatModelList = [];
+                        QuerySnapshot? qs = snapshot.data;
+                        List<QueryDocumentSnapshot> l1 = qs!.docs;
+                        for (var x in l1) {
+                          var id = x.id;
+                          Map m1 = x.data() as Map;
 
-                      ChatModel model = ChatModel.mapToModel(m1);
-                      model.docId = id;
+                          ChatModel model = ChatModel.mapToModel(m1);
+                          model.docId = id;
 
-                      chatModelList.add(model);
-                    }
+                          chatModelList.add(model);
+                        }
 
-                    if (chatModelList.isEmpty) {
-                      return const Center(
-                        child: Text("Let's started"),
-                      );
-                    } else {
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: chatModelList.length,
-                          itemBuilder: (context, index) {
-                            return chatModelList[index].uid ==
-                                    FireBaseHelper.fireBaseHelper.user!.uid
-                                ? ChatBubble(
-                                    clipper: ChatBubbleClipper6(
-                                      type: BubbleType.sendBubble,
-                                    ),
-                                    alignment: Alignment.centerRight,
-                                    elevation: 2,
-                                    child: InkWell(
-                                      onLongPress: () {
-                                        if (chatModelList[index].uid ==
-                                            FireBaseHelper
-                                                .fireBaseHelper.user!.uid) {
-                                          Get.defaultDialog(
-                                            title: "delete chat",
-                                            actions: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xffdd4545),
-                                                ),
-                                                child: const Text(
-                                                  "Cansel",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
+                        if (chatModelList.isEmpty) {
+                          return const Center(
+                            child: Text("Let's started"),
+                          );
+                        } else {
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: chatModelList.length,
+                              itemBuilder: (context, index) {
+                                return chatModelList[index].uid ==
+                                        FireBaseHelper.fireBaseHelper.user!.uid
+                                    ? ChatBubble(
+                                        clipper: ChatBubbleClipper8(
+                                          type: BubbleType.sendBubble,
+                                        ),
+                                        margin: const EdgeInsets.only(top: 5),
+                                        alignment: Alignment.centerRight,
+                                        elevation: 2,
+                                        child: InkWell(
+                                          onLongPress: () {
+                                            if (chatModelList[index].uid ==
+                                                FireBaseHelper
+                                                    .fireBaseHelper.user!.uid) {
+                                              Get.defaultDialog(
+                                                title: "delete chat",
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Get.back();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          const Color(
+                                                              0xffdd4545),
+                                                    ),
+                                                    child: const Text(
+                                                      "Cansel",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  DbFirebaseHelPer
-                                                      .dbFirebaseHelPer
-                                                      .deleteMyChat(
-                                                          chatModelList[index]
-                                                              .docId!);
-                                                  Get.back();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xff458ddd),
-                                                ),
-                                                child: const Text(
-                                                  "Delete",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      DbFirebaseHelPer
+                                                          .dbFirebaseHelPer
+                                                          .deleteMyChat(
+                                                              chatModelList[
+                                                                      index]
+                                                                  .docId!);
+                                                      Get.back();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          const Color(
+                                                              0xff458ddd),
+                                                    ),
+                                                    child: const Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                ],
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.all(10),
+                                            child: Text(
+                                              "${chatModelList[index].message}",
+                                              style: const TextStyle(
+                                                color: Colors.white,
                                               ),
-                                            ],
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Text(
-                                          "${chatModelList[index].message}",
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  )
-                                : ChatBubble(
-                                    clipper: ChatBubbleClipper6(
-                                      type: BubbleType.receiverBubble,
-                                    ),
-                                    elevation: 2,
-                                    backGroundColor: Colors.grey.shade300,
-                                    alignment: Alignment.centerLeft,
-                                    child: InkWell(
-                                      onLongPress: () {
-                                        if (chatModelList[index].uid ==
-                                            FireBaseHelper
-                                                .fireBaseHelper.user!.uid) {
-                                          Get.defaultDialog(
-                                            title: "delete chat",
-                                            actions: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xffdd4545),
-                                                ),
-                                                child: const Text(
-                                                  "Cansel",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
+                                      )
+                                    : ChatBubble(
+                                        clipper: ChatBubbleClipper8(
+                                          type: BubbleType.receiverBubble,
+                                        ),
+                                        elevation: 2,
+                                        backGroundColor: Colors.grey.shade300,
+                                        alignment: Alignment.centerLeft,
+                                        child: InkWell(
+                                          onLongPress: () {
+                                            if (chatModelList[index].uid ==
+                                                FireBaseHelper
+                                                    .fireBaseHelper.user!.uid) {
+                                              Get.defaultDialog(
+                                                title: "delete chat",
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Get.back();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          const Color(
+                                                              0xffdd4545),
+                                                    ),
+                                                    child: const Text(
+                                                      "Cansel",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  DbFirebaseHelPer
-                                                      .dbFirebaseHelPer
-                                                      .deleteMyChat(
-                                                          chatModelList[index]
-                                                              .docId!);
-                                                  Get.back();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xff458ddd),
-                                                ),
-                                                child: const Text(
-                                                  "Delete",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      DbFirebaseHelPer
+                                                          .dbFirebaseHelPer
+                                                          .deleteMyChat(
+                                                              chatModelList[
+                                                                      index]
+                                                                  .docId!);
+                                                      Get.back();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          const Color(
+                                                              0xff458ddd),
+                                                    ),
+                                                    child: const Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Text(
-                                            "${chatModelList[index].message}"),
-                                      ),
-                                    ),
-                                  );
-                          },
-                        ),
-                      );
-                    }
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
+                                                ],
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(5),
+                                            child: Text(
+                                                "${chatModelList[index].message}"),
+                                          ),
+                                        ),
+                                      );
+                              },
+                            ),
+                          );
+                        }
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
               ),
               Row(
                 children: [
@@ -228,7 +243,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       focusNode: node,
                       controller: txtMessage,
                       decoration: InputDecoration(
-
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: const BorderSide(
@@ -263,7 +277,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         } else {
                           controller.sendMassage(
                               model.id!, DateTime.now(), txtMessage.text);
-                          DbFirebaseHelPer.dbFirebaseHelPer.chatMessages();
+                          controller.chatMessages();
                         }
                       },
                       color: Colors.white,

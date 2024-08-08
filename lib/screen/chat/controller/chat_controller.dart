@@ -4,13 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class ChatController extends GetxController {
+  Rxn<Stream<QuerySnapshot<Map<String, dynamic>>>> chat = Rxn();
   Future<void> sendMassage(
       String user2id, DateTime date, String message) async {
     await DbFirebaseHelPer.dbFirebaseHelPer.checkChatId(
         FireBaseHelper.fireBaseHelper.user!.uid, user2id, date, message);
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> chatMessages() {
-   return DbFirebaseHelPer.dbFirebaseHelPer.chatMessages();
+  void chatMessages() {
+   chat.value =  DbFirebaseHelPer.dbFirebaseHelPer.chatMessages();
   }
 }
